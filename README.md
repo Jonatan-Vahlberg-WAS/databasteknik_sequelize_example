@@ -4,6 +4,9 @@ A small backend API for books, authors, and genres, built with **Express** and *
 
 If you are new to this project: start with **Prerequisites** and **First time setup**, then run the app. Use **Backend packages** when you want to understand what each dependency does, and **Tasks** as your exercise list.
 
+You can find the solution code in the `solution-code` branch switch to it either in browser or by running: 
+`git checkout solution-code` in the terminal.
+
 ---
 
 ## Prerequisites
@@ -126,7 +129,10 @@ These are the npm packages the backend uses (see `package.json`):
 ## Tasks
 
 - [ ] Add `Genres` and `BookGenres` models and associations
+    hint: When adding the associations, use the `onDelete: 'CASCADE'` option to ensure that when a book or genre is deleted, the corresponding rows in the junction table are also deleted.
 - [ ] Add a `Genres` API endpoint `GET /api/genres`
+
+
 - [ ] Add a `GET /api/books` endpoint to include the Author
     hint: `include: [Authors]`
 - [ ] Add a `GET /api/books/:id` endpoint to get a single book
@@ -140,15 +146,15 @@ These are the npm packages the backend uses (see `package.json`):
     hint: `body: { name, price, stock, author_id }`
     hint 2: [Inserting Records](https://sequelize.org/docs/v7/querying/insert/#inserting-a-single-entity)
     hint 2:  look at the `POST /api/authors` endpoint for inspiration
-    - [ ] Harder challange in the creation of the book add the genres that you take in from the `body: { ..., genres }` by creating a new `BookGenres` rows.
+    - [ ] Hard challange in the creation of the book add the genres that you take in from the `body: { ..., genres }` by creating a new `BookGenres` rows.
         hint: [Inserting Associated Records](https://sequelize.org/docs/v7/querying/insert/#inserting-associated-records)
 
 - [ ] Test the frontend to see if the new book is created properly
-
 - [ ] Add a `PUT /api/books/:id` endpoint to update a book
     hint: The update request is really just a `GET`and a `POST` request combined.
     hint 2: [Updating Records](https://sequelize.org/docs/v7/querying/update/)
     hint: `body: { name, price, stock, author_id }`
+    - [ ] Very Hard challange in the update of the book add the genres that you take in from the `body: { ..., genres }` by first deleting the existing genres and then adding the new ones.
 
 - [ ] Add a `DELETE /api/books/:id` endpoint to delete a book
     hint: [Deleting Records](https://sequelize.org/docs/v7/querying/delete/)

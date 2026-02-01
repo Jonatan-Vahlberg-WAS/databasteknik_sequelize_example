@@ -33,7 +33,7 @@ const Books = sequelize.define('Books', {
     timestamps: true,
 });
 
-Books.belongsTo(Authors, { foreignKey: 'author_id' });
-Authors.hasMany(Books, { foreignKey: 'author_id' });
+Books.belongsTo(Authors, { foreignKey: 'author_id', onDelete: 'CASCADE' });
+Authors.hasMany(Books, { foreignKey: 'author_id'});
 
 module.exports = Books;
