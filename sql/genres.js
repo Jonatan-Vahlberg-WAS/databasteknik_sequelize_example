@@ -1,19 +1,4 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('./sequelize');
 
-const Genres = sequelize.define('Genres', {
-    id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-    },
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-}, {
-    tableName: 'Genres',
-    timestamps: true,
-});
-
-module.exports = Genres;
+//TODO implement the Genres model

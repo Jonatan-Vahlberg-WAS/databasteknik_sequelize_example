@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3000;
 const sequelize = require('./sql/sequelize');
-const { Authors, Books, Genres, BookGenres } = require('./sql/models');
+const { Authors, Books } = require('./sql/models');
 
 app.use(cors());
 app.use(express.json());
@@ -39,32 +39,16 @@ app.post('/api/authors', (req, res) => {
 });
 
 app.get('/api/books', (req, res) => {
-    Books.findAll({
-        include: [
-            Authors,
-            { model: Genres, through: { attributes: [] } },  // through: { attributes: [] } hides junction columns in response
-        ],
-    })
-    .then((books) => {
-        res.json(books);
-    })
-    .catch((error) => {
-        console.error('Error fetching books:', error);
-        res.status(500).json({ error: 'Unable to fetch books' });
-    });
+    //TODO: Implement the GET /api/books endpoint
+    res.status(501).json({ message: 'GET /api/books endpoint not implemented' });
 });
 
-app.get('/api/genres', (req, res) => {
-    Genres.findAll()
-    .then((genres) => {
-        res.json(genres);
-    })
-    .catch((error) => {
-        console.error('Error fetching genres:', error);
-        res.status(500).json({ error: 'Unable to fetch genres' });
-    });
-});
+//TODO implement the GET /api/books:id endpoint
+//TODO implement the POST /api/books endpoint
+//TODO implement the PUT /api/books/:id endpoint
+//TODO implement the DELETE /api/books/:id endpoint
 
+//TODO implement the GET /api/genres endpoint
 
 app.listen(port, () => {
     sequelize.authenticate()
