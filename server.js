@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3000;
 const sequelize = require('./sql/sequelize');
-const { Authors, Books } = require('./sql/models');
+const { Authors, Books, Genres } = require('./sql/models');
 
 app.use(cors());
 app.use(express.json());
@@ -49,6 +49,17 @@ app.get('/api/books', (req, res) => {
 //TODO implement the DELETE /api/books/:id endpoint
 
 //TODO implement the GET /api/genres endpoint
+app.get("/api/genres", (req, res) => {
+    Genres.findAll()
+    .then(genres => {
+        res.json(genres)
+    })
+    .catch(err => {
+        res.status(500).json({
+            message: "Unable to fetch genres" + err.message
+        })
+    })
+})
 
 app.listen(port, () => {
     sequelize.authenticate()

@@ -1,6 +1,7 @@
 const Authors = require('./authors');
 const Books = require('./books');
-// TODO: Fetch the genres and the BookGenres models
+const Genres = require('./genres')
+// TODO: Fetch the BookGenres models
 
 
 // Many-to-many: Books <-> Genres through Book_Genres (required for include: [Genres] to work)
@@ -11,6 +12,7 @@ const Books = require('./books');
 const models = {
     Authors,
     Books,
+    Genres
 };
 
 module.exports = models;
