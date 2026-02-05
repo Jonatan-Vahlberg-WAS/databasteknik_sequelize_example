@@ -85,8 +85,6 @@ app.get("/api/books/genre/:genre_id", (req, res) => {
     });
 });
 
-//TODO implement the GET /api/books:id endpoint
-
 app.post("/api/books", (req, res) => {
   const { name, price, stock, author_id } = req.body;
   if (!name || !price || !stock || !author_id) {
@@ -112,8 +110,97 @@ app.post("/api/books", (req, res) => {
     });
 });
 
-//TODO implement the PUT /api/books/:id endpoint
-//TODO implement the DELETE /api/books/:id endpoint
+app.get("/api/books/:id", (req, res) => {
+  const { id } = req.params;
+
+  Books.findByPk(id, {
+    include: [
+      Authors,
+      {
+        model: Genres,
+        attributes: ["id", "name"],
+      },
+    ],
+  })
+    .then((book) => {
+      if (!book) {
+        return res.status(404).json({
+          message: `Book not found for id '${id}'`,
+        });
+      }
+      return res.json(book);
+    })
+    .catch((err) => {
+      console.error("Cannot fetch book", err);
+      res.status(500).json({
+        message: "Cannot fetch book " + err,
+      });
+    });
+});
+
+app.put("/api/books/:id", (req, res) => {
+  const { id } = req.params;
+  const { name, price, stock, author_id } = req.body;
+  if (!name || !price || !stock || !author_id) {
+    return res.status(400).json({
+      message: `Cannot create book :(`,
+    });
+  }
+
+  Books.update(
+    {
+      name,
+      price,
+      stock,
+      author_id,
+    },
+    {
+      where: {
+        id: id,
+      },
+      returning: true,
+    },
+  )
+    .then(([count, rows]) => {
+      if (!count) {
+        return res.status(404).json({
+          message: `Book not found for id '${id}'`,
+        });
+      }
+      return res.status(200).json(rows[0]);
+    })
+    .catch((err) => {
+      console.error("Cannot create book", err);
+      res.status(500).json({
+        message: "Cannot create book " + err,
+      });
+    });
+});
+
+app.delete("/api/books/:id", (req, res) => {
+  const { id } = req.params;
+
+  Books.destroy({
+    where: {
+      id: id,
+    },
+  })
+    .then((rowsRemoved) => {
+      console.log("Rows removed", rowsRemoved);
+      if (!rowsRemoved) {
+        return res.status(404).json({
+          message: `Book not found for id '${id}'`,
+        });
+      }
+      return res.status(204).json();
+    })
+    .catch((err) => {
+      console.error("Cannot fetch book", err);
+      res.status(500).json({
+        message: "Cannot fetch book " + err,
+      });
+    });
+});
 
 //TODO implement the GET /api/genres endpoint
 app.get("/api/genres", (req, res) => {
